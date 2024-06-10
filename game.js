@@ -1,12 +1,10 @@
-// Variables used by Scriptable.
-// These must be at the very top of the file. Do not edit.
-// icon-color: gray; icon-glyph: magic;
 const canvas = document.getElementById('gameCanvas');
 const context = canvas.getContext('2d');
 
 // 加载背景图片
 const backgroundImage = new Image();
 backgroundImage.src = 'background.jpg';
+backgroundImage.crossOrigin = "Anonymous"; // 如果图片来源不同域，确保设置跨域属性
 
 const images = ['scorpion.png', 'centipede.png', 'snake.png', 'spider.png', 'toad.png'];
 const targets = [];
@@ -16,6 +14,13 @@ function loadImages(imagePaths) {
     return imagePaths.map(path => {
         const img = new Image();
         img.src = path;
+        img.crossOrigin = "Anonymous"; // 如果图片来源不同域，确保设置跨域属性
+        img.onload = () => {
+            console.log(`图片加载成功: ${path}`);
+        };
+        img.onerror = () => {
+            console.error(`图片加载失败: ${path}`);
+        };
         return img;
     });
 }
@@ -47,6 +52,7 @@ function drawScore() {
     context.font = '20px Arial';
     context.fillStyle = 'black';
     context.fillText('得分: ' + score, 10, 20);
+    console.log('当前得分: ' + score); // 调试信息
 }
 
 function checkCollision(x, y) {
@@ -72,6 +78,7 @@ canvas.addEventListener('click', (event) => {
 });
 
 function gameLoop() {
+    context.clearRect(0, 0, canvas.width, canvas.height); // 清空画布
     drawBackground();
     drawTargets();
     drawScore();
@@ -85,3 +92,14 @@ backgroundImage.onload = function() {
     }
     gameLoop();
 };
+
+// 错误处理
+backgroundImage.onerror = function() {
+    console.error("背景图片加载失败");
+};
+
+loadedImages.forEach(img => {
+    img.onerror = function() {
+        console.error(`图片加载失败: ${img.src}`);
+    };
+});
