@@ -1,6 +1,3 @@
-// Variables used by Scriptable.
-// These must be at the very top of the file. Do not edit.
-// icon-color: gray; icon-glyph: magic;
 const canvas = document.getElementById('gameCanvas');
 const context = canvas.getContext('2d');
 
