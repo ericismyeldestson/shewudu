@@ -1,10 +1,6 @@
 const canvas = document.getElementById('gameCanvas');
 const context = canvas.getContext('2d');
 
-// 加载背景图片
-const backgroundImage = new Image();
-backgroundImage.src = 'background.jpg';
-
 const images = ['scorpion.png', 'centipede.png', 'snake.png', 'spider.png', 'toad.png'];
 const targets = [];
 let score = 0;
@@ -30,20 +26,11 @@ function spawnTarget() {
     targets.push({ image, x, y });
 }
 
-function drawBackground() {
-    context.drawImage(backgroundImage, 0, 0, canvas.width, canvas.height);
-}
-
 function drawTargets() {
+    context.clearRect(0, 0, canvas.width, canvas.height);
     targets.forEach(target => {
         context.drawImage(target.image, target.x, target.y);
     });
-}
-
-function drawScore() {
-    context.font = '20px Arial';
-    context.fillStyle = 'black';
-    context.fillText('得分: ' + score, 10, 20);
 }
 
 function checkCollision(x, y) {
@@ -53,6 +40,7 @@ function checkCollision(x, y) {
             y >= target.y && y <= target.y + target.image.height) {
             targets.splice(i, 1);
             score++;
+            document.title = `得分: ${score}`;
             return true;
         }
     }
@@ -69,16 +57,13 @@ canvas.addEventListener('click', (event) => {
 });
 
 function gameLoop() {
-    drawBackground();
     drawTargets();
-    drawScore();
     requestAnimationFrame(gameLoop);
 }
 
 // 初始化
-backgroundImage.onload = function() {
-    for (let i = 0; i < 5; i++) {
-        spawnTarget();
-    }
-    gameLoop();
-};
+for (let i = 0; i < 5; i++) {
+    spawnTarget();
+}
+
+gameLoop();
