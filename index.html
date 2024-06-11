@@ -7,21 +7,37 @@
     <style>
         body {
             display: flex;
+            flex-direction: column;
             justify-content: center;
             align-items: center;
             height: 100vh;
             margin: 0;
             background-color: #f8f9fa;
         }
+        #score {
+            font-size: 24px;
+            margin-bottom: 10px;
+        }
         #gameCanvas {
             border: 2px solid #333;
             background: url('background.png') no-repeat center center;
             background-size: cover;
         }
+        #startButton {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            padding: 10px 20px;
+            font-size: 24px;
+            cursor: pointer;
+        }
     </style>
 </head>
 <body>
+    <div id="score">得分: 0</div>
     <canvas id="gameCanvas" width="800" height="600"></canvas>
+    <button id="startButton">开始游戏</button>
     <script src="game.js"></script>
 </body>
 </html>
